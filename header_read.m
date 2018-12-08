@@ -1,3 +1,4 @@
+%% Author: Li Lu, written in Dec. 2018
 function header=header_read(file)
 
 version=fread(file,2,'uint16');
