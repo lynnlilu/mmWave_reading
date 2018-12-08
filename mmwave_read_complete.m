@@ -1,12 +1,11 @@
+%% Author: Li Lu, written in Dec. 2018
 clear;
 clc;
 %% configuration
 ADCsample_num=256;
-range_bins_num=256; %最接近ADCsample_num的2的幂次方数
+range_bins_num=256; 
 rx_num=4;
 tx_num=1;
-% the number of loops in frameCfg -> may be right
-% according to https://e2e.ti.com/support/sensors/f/1023/t/626801
 chirpsperframe=16; 
 
 %% read data
