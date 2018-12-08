@@ -1,3 +1,4 @@
+%% Author: Li Lu, written in Dec. 2018
 function padding=padding_read(file)
 
 padding=fread(file,1,'uint8');
