@@ -33,12 +33,12 @@ if(tag==1) % detected objects
     payload={descriptor;range_index;doppler_index;peak_value;x_coordinate;...
         y_coordinate;z_coordinate};
 elseif(tag==2) % range profile
-    size_range=range_bins_num/2;
-    range_profile_log=fread(file,size_range,'uint');
+    size_range=range_bins_num;
+    range_profile_log=fread(file,size_range,'uint16');
     payload={range_profile_log};
 elseif(tag==3) % noise profile
-    size_range=range_bins_num/2; % ??? why not ADC sample no., but the half
-    noise_profile_log=fread(file,size_range,'uint');
+    size_range=range_bins_num;
+    noise_profile_log=fread(file,size_range,'uint16');
     payload={noise_profile_log};
 elseif(tag==4) % range azimuth heatmap
     size_rahp=range_bins_num*(rx_num*tx_num);
