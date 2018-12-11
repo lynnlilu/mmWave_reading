@@ -12,7 +12,7 @@ chirpsperframe=16;
 magicword_template=[2;1;4;3;6;5;8;7];
 
 %% read data
-file=fopen('xwr16xx_stream5.dat');
+file=fopen('xwr16xx_stream.dat');
 
 % header
 magicword=fread(file,8,'uint8');
@@ -45,9 +45,6 @@ while(~feof(file))
     for i=1:tmpheader{7}
         TLV=parseTLV(file,tmpheader{6},range_bins_num,tx_num,rx_num,chirpsperframe);
         tmppackage(i,:)=TLV;
-    end
-    if(length(headerall)==72)
-        a=4;
     end
     padding=padding_read(file,tmpheader,tmppackage);
     headerall=[headerall;tmpheader'];
