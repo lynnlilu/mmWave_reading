@@ -34,19 +34,32 @@ if(tag==1) % detected objects
         y_coordinate;z_coordinate};
 elseif(tag==2) % range profile
     size_range=range_bins_num;
-    range_profile_log=fread(file,size_range,'uint16');
+    range_profile_log=fread(file,size_range,'uint16'); % the unit of two profiles is 2 bytes
     payload={range_profile_log};
 elseif(tag==3) % noise profile
     size_range=range_bins_num;
-    noise_profile_log=fread(file,size_range,'uint16');
+    noise_profile_log=fread(file,size_range,'uint16'); % the unit of two profiles is 2 bytes
     payload={noise_profile_log};
 elseif(tag==4) % range azimuth heatmap
-    size_rahp=range_bins_num*(rx_num*tx_num);
-    ra_heatmap=fread(file,size_rahp,'uint');
+    virtual_ant_num=rx_num*tx_num;
+    size_rahp=range_bins_num*virtual_ant_num;
+    tmp_ra_heatmap=fread(file,size_rahp*2,'uint16'); % prior 16bit is imag, and posterior 16bit is real
+    tmp_complex=zeros(size_rahp,1);
+    dif=0;
+    for i=1:2:size_rahp*2-1
+        index=i-dif;
+        tmp_complex(index)=complex(tmp_ra_heatmap(i+1),tmp_ra_heatmap(i));
+        dif=dif+1;
+    end
+    ra_heatmap=reshape(tmp_complex.',virtual_ant_num,range_bins_num);
+    ra_heatmap=ra_heatmap.';
     payload={ra_heatmap};
 elseif(tag==5) % range doppler heatmap
-    size_rdhp=range_bins_num/2*(chirpsperframe/tx_num);
-    rd_heatmap=fread(file,size_rdhp,'uint');
+    doppler_bins_num=chirpsperframe/tx_num;
+    size_rdhp=range_bins_num*doppler_bins_num;
+    tmp_rd_heatmap=fread(file,size_rdhp,'uint16');
+    rd_heatmap=reshape(tmp_rd_heatmap.',doppler_bins_num,range_bins_num);
+    rd_heatmap=rd_heatmap.';
     payload={rd_heatmap};
 elseif(tag==6) % stats
     interframe_process_time=fread(file,1,'uint');
