@@ -2,8 +2,13 @@
 function header=header_read(file)
 
 version=fread(file,2,'uint16');
+if(~isempty(version))
+    version=num2str(version);
+    version=[version(4) '.' version(3) '.' version(2) '.' version(1)];
+end
 total_package_length=fread(file,1,'uint');
 platform=fread(file,1,'uint');
+platform=dec2hex(platform);
 frame_num=fread(file,1,'uint');
 CPU_time=fread(file,1,'uint');
 object_num=fread(file,1,'uint');
