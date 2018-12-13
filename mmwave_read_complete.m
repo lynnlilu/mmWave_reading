@@ -37,7 +37,7 @@ headerall=header';
 packageall={package};
 while(~feof(file))
     magicword=fread(file,8,'uint8');
-    if(~all(magicword==magicword_template==1))
+    if(isempty(magicword) || ~all(magicword==magicword_template==1))
         break;
     end
     tmpheader=header_read(file);
